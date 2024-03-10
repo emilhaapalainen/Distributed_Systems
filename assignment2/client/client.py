@@ -6,12 +6,18 @@ class Client:
     
     def getNotes (self):
         topic = input("Enter topic: ")
-        return self.server.getNotes(topic)
-    
+        notes = self.server.getNotes(topic)
+        if notes:
+            for note in notes:
+                print(note)
+        else:
+            print("No note found")
+
     def newNote (self):
-        topic = input("Enter topic: ")
+        getTopic = input("Enter topic: ")
+        name = input("Enter name: ")
         text = input("Enter text: ")
-        return self.server.newNote (topic, text)
+        print(self.server.appendNote(getTopic, name, text))
 
 
 if __name__ == "__main__":
