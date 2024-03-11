@@ -1,3 +1,7 @@
+#https://docs.python.org/3/library/xmlrpc.html
+#https://docs.python.org/3/library/xml.etree.elementtree.html
+#https://docs.python.org/3/library/xmlrpc.server.html
+
 import xmlrpc.server
 import xml.etree.ElementTree as ET
 import datetime
@@ -20,7 +24,7 @@ class Server:
     
     def appendNote (self, noteTopic, name, text):
         topic = self.getTopic(noteTopic)
-        if len(topic) == 0:
+        if not topic:
             topic = ET.SubElement(self.root, 'topic', {'name': noteTopic})
 
         self.newNote(topic, name, text)
@@ -36,15 +40,11 @@ class Server:
     def getNotes (self, topic):
         found = []
         search = self.getTopic(topic)
-        if len(search) == 0:
+        if not search:
             return found
         
         for note in search.findall('note'):
-            found.append({
-                'name': note.get('name'),
-                'text': note.find('text').text,
-                'time': note.find('time').text
-            })
+            found.append({'name': note.get('name'), 'text': note.find('text').text, 'time': note.find('time').text})
         return found
     
 if __name__ == "__main__":
